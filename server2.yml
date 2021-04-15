@@ -1,0 +1,27 @@
+---
+- name: Configure Server2
+  become: true
+  hosts: server2
+  tasks:
+  - name: Install stuff
+    yay:
+      name: "{{ item }}"
+      state: installed
+    loop:
+      - policycoreutils
+      - firewalld
+  - name: Enable Firewall
+    service:
+      name: firewalld
+      state: started
+      enabled: yes 
+  - name: Grub Timeout 
+    lineinfile:
+      dest: /etc/default/grub
+      state: present
+      regexp: ^GRUB_TIMEOUT
+      line: GRUB_TIMEOUT=20
+  - name: Install New Grub
+    shell:
+      cmd: grub2-mkconfig > /boot/grub2/grub.cfg
+
