@@ -59,7 +59,7 @@ dnf -y install wget git binutils gcc make patch libgomp glibc-headers glibc-deve
 4. Use PowerShell/Terminal as Administrator/Root again and cd to the `~/bin/Environment` directory then run `vagrant up` to deploy the environment. (If the environment has a designated repo VM it will take the longest to deploy the first time only, this is because the repo system has all the packages available to the base release but will be quicker on subsequent deployments.)
 
 
-## Debian
+## Debian/Ubuntu
 _NOTE - If it's been awhile since you've run apt update, do that first. Reboot if the kernel was updated._
 
 ##### Install all at once by Copy/Pasting the below command into your terminal as root.
