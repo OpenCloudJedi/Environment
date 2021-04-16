@@ -65,14 +65,14 @@ Vagrant.configure("2") do |config|
     config.vm.box = "jackrayner/fedora-31-workstation"
     config.ssh.insert_key = false
     workstation.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__exclude: ".git/"
-    #workstation.vm.provision "shell",
-    #  inline: "sudo yum update -y"
+    workstation.vm.provision "shell",
+      inline: "sudo yum install ansible -y"
     workstation.vm.provider :virtualbox do |v|
       v.customize ["modifyvm", :id, "--memory", 4096]
     end
     workstation.vm.provision :ansible_local do |ansible|
       ansible.playbook = "/vagrant/playbooks/master.yml"
-      ansible.install = true
+      ansible.install = false
       ansible.compatibility_mode = "2.0"
       ansible.inventory_path = "/vagrant/inventory"
       ansible.config_file = "/vagrant/ansible.cfg"
