@@ -77,16 +77,10 @@ Vagrant.configure("2") do |config|
       inline: "sudo cp /vagrant/ansible.cfg /etc/ansible/ansible.cfg"
     workstation.vm.provision "shell",
       inline: "ansible all -i /vagrant/inventory -m ping"
+    workstation.vm.provision "shell",
+      inline: "ansible-playbook -i /vagrant/inventory /vagrant/playbooks/master.yml"
     workstation.vm.provider :virtualbox do |v|
       v.customize ["modifyvm", :id, "--memory", 4096]
-    end
-    workstation.vm.provision :ansible_local do |ansible|
-      ansible.playbook = "/vagrant/playbooks/master.yml"
-      ansible.install = false
-      ansible.compatibility_mode = "2.0"
-      ansible.inventory_path = "/vagrant/inventory"
-      ansible.config_file = "/vagrant/ansible.cfg"
-      ansible.limit = "all"
     end
   end
 end
