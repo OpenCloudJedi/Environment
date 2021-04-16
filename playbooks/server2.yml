@@ -5,7 +5,7 @@
   hosts: server2
   tasks:
   - name: Install stuff
-    yay:
+    yum:
       name: "{{ item }}"
       state: installed
     loop:
