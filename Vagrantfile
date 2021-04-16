@@ -64,7 +64,7 @@ Vagrant.configure("2") do |config|
     workstation.vm.network :private_network, ip: "192.168.2.5"
     config.vm.box = "jackrayner/fedora-31-workstation"
     config.ssh.insert_key = false
-    workstation.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__exclude: ".git/" "*.vdi*"
+    workstation.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__exclude: [".git/", "*.vdi*"]
     workstation.vm.provision "shell",
       inline: "sudo yum install ansible vim -y"
     workstation.vm.provision "shell",
@@ -73,6 +73,8 @@ Vagrant.configure("2") do |config|
       inline: "localectl set-keymap us"
     workstation.vm.provision "shell",
       inline: "localectl set-locale LANG=en_US.UTF-8"
+    workstation.vm.provision "shell",
+      inline: "gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us')]""
     workstation.vm.provider :virtualbox do |v|
       v.customize ["modifyvm", :id, "--memory", 4096]
     end
