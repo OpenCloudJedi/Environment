@@ -74,7 +74,7 @@ Vagrant.configure("2") do |config|
     workstation.vm.provision "shell",
       inline: "localectl set-locale LANG=en_US.UTF-8"
     workstation.vm.provision "shell",
-      inline: "gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us')]""
+      inline: "gsettings set org.gnome.desktop.input-sources sources \"[(\'xkb\'\, \'us\')]\""
     workstation.vm.provider :virtualbox do |v|
       v.customize ["modifyvm", :id, "--memory", 4096]
     end
