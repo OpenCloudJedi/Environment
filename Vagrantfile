@@ -31,7 +31,7 @@ Vagrant.configure("2") do |config|
     server2.vm.box = "bento/centos-8.3"
     server2.vm.hostname = "server2.test"
     server2.vm.network :private_network, ip: "192.168.2.4"
-    server2.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__exclude: ".git/"
+    #server2.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__exclude: ".git/"
     #server2.vm.provision "shell",
     #  inline: "sudo yum update -y"
     server2.vm.provider :virtualbox do |v|
@@ -66,7 +66,7 @@ Vagrant.configure("2") do |config|
     config.ssh.insert_key = false
     workstation.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__exclude: ".git/" "*.vdi*"
     workstation.vm.provision "shell",
-      inline: "sudo yum install ansible -y"
+      inline: "sudo yum install ansible vim -y"
     workstation.vm.provision "shell",
       inline: "localectl set-x11-keymap us"
     workstation.vm.provision "shell",
