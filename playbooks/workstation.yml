@@ -1,7 +1,7 @@
 ---
 - name: configure workstation
   gather_facts: false
-  hosts: workstation
+  hosts: localhost
   become: true
   tasks:
   - name: Change Locale
