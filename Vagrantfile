@@ -67,6 +67,12 @@ Vagrant.configure("2") do |config|
     workstation.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__exclude: ".git/"
     workstation.vm.provision "shell",
       inline: "sudo yum install ansible -y"
+    workstation.vm.provision "shell",
+      inline: "localectl set-x11-keymap us"
+    workstation.vm.provision "shell",
+      inline: "localectl set-keymap us"
+    workstation.vm.provision "shell",
+      inline: "localectl set-locale LANG=en_US.UTF-8"
     workstation.vm.provider :virtualbox do |v|
       v.customize ["modifyvm", :id, "--memory", 4096]
     end
