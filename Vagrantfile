@@ -20,19 +20,10 @@ Vagrant.configure("2") do |config|
     server1.vm.box = "bento/centos-8.3"
     server1.vm.hostname = "server1.test"
     server1.vm.network :private_network, ip: "192.168.2.3"
-    server1.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__exclude: ".git/"
-    #    server1.vm.provision "shell",
-#      inline: "sudo yum update -y"
+    server1.vm.provision "shell",
+      inline: "sudo yum update -y"
     server1.vm.provider :virtualbox do |v|
       v.customize ["modifyvm", :id, "--memory", 768]
-    end
-    server1.vm.provision :ansible_local do |ansible|
-      ansible.playbook = "/vagrant/playbooks/server1.yml"
-      ansible.install = false
-      ansible.compatibility_mode = "2.0"
-      ansible.inventory_path = "/vagrant/inventory"
-      ansible.config_file = "/vagrant/ansible.cfg"
-      ansible.limit = "all"
     end
   end
   # Server2.
@@ -41,8 +32,8 @@ Vagrant.configure("2") do |config|
     server2.vm.hostname = "server2.test"
     server2.vm.network :private_network, ip: "192.168.2.4"
     server2.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__exclude: ".git/"
- #   server2.vm.provision "shell",
- #     inline: "sudo yum update -y"
+    server2.vm.provision "shell",
+      inline: "sudo yum update -y"
     server2.vm.provider :virtualbox do |v|
       v.customize ["modifyvm", :id, "--memory", 768]
       unless File.exist?(disk1)
@@ -53,14 +44,6 @@ Vagrant.configure("2") do |config|
         v.customize ['storageattach', :id,  '--storagectl', 'SATA Controller', '--port', 3, '--device', 0, '--type', 'hdd', '--medium', disk2] 
         v.customize ['storageattach', :id,  '--storagectl', 'SATA Controller', '--port', 4, '--device', 0, '--type', 'hdd', '--medium', disk3] 
       end
-    end
-    server2.vm.provision :ansible_local do |ansible|
-      ansible.playbook = "/vagrant/playbooks/server2.yml"
-      ansible.install = false
-      ansible.compatibility_mode = "2.0"
-      ansible.inventory_path = "/vagrant/inventory"
-      ansible.config_file = "/vagrant/ansible.cfg"
-      ansible.limit = "all"
     end
   end
    # # Run Ansible provisioner once for all VMs at the end.
@@ -82,14 +65,14 @@ Vagrant.configure("2") do |config|
     config.vm.box = "jackrayner/fedora-31-workstation"
     config.ssh.insert_key = false
     workstation.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__exclude: ".git/"
-  #  workstation.vm.provision "shell",
-  #    inline: "sudo yum update -y"
+    workstation.vm.provision "shell",
+      inline: "sudo yum update -y"
     workstation.vm.provider :virtualbox do |v|
       v.customize ["modifyvm", :id, "--memory", 4096]
     end
     workstation.vm.provision :ansible_local do |ansible|
-      ansible.playbook = "/vagrant/playbooks/workstation.yml"
-      ansible.install = false
+      ansible.playbook = "/vagrant/playbooks/master.yml"
+      ansible.install = true
       ansible.compatibility_mode = "2.0"
       ansible.inventory_path = "/vagrant/inventory"
       ansible.config_file = "/vagrant/ansible.cfg"
