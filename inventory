@@ -2,5 +2,3 @@
 server1.test ansible_host=192.168.2.3 ansible_ssh_pass=vagrant
 [server2]
 server2.test ansible_host=192.168.2.4 ansible_ssh_pass=vagrant
-[workstation]
-workstation.test ansible_host=192.168.2.5 ansible_ssh_pass=vagrant
