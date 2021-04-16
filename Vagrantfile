@@ -85,8 +85,8 @@ Vagrant.configure("2") do |config|
     workstation.vm.provider :virtualbox do |v|
       v.customize ["modifyvm", :id, "--memory", 4096]
     end
-    server2.vm.provision :ansible_local do |ansible|
-      ansible.playbook = "/vagrant/playbooks/server2.yml"
+    workstation.vm.provision :ansible_local do |ansible|
+      ansible.playbook = "/vagrant/playbooks/workstation.yml"
       ansible.install = false
       ansible.compatibility_mode = "2.0"
       ansible.inventory_path = "/vagrant/inventory"
