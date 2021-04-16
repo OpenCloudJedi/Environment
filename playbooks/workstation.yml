@@ -1,5 +1,6 @@
 ---
 - name: configure workstation
+  gather_facts: false
   hosts: workstation
   become: true
   tasks:
