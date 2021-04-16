@@ -64,7 +64,7 @@ Vagrant.configure("2") do |config|
     workstation.vm.network :private_network, ip: "192.168.2.5"
     config.vm.box = "jackrayner/fedora-31-workstation"
     config.ssh.insert_key = false
-    workstation.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__exclude: ".git/"
+    workstation.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__exclude: ".git/" "*.vdi*"
     workstation.vm.provision "shell",
       inline: "sudo yum install ansible -y"
     workstation.vm.provision "shell",
