@@ -1,0 +1,6 @@
+[server1]
+server1.test ansible_host=192.168.2.3
+[server2]
+server2.test ansible_host=192.168.2.4
+[workstation]
+workstation.test ansible_host=192.168.3.5
