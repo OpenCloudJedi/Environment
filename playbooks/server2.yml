@@ -7,7 +7,6 @@
     yum:
       name: "{{ item }}"
       state: installed
-      use_backend: YUM4
     loop:
       - policycoreutils
       - firewalld
