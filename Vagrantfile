@@ -25,6 +25,14 @@ Vagrant.configure("2") do |config|
     server1.vm.provider :virtualbox do |v|
       v.customize ["modifyvm", :id, "--memory", 768]
     end
+    server1.vm.provision :ansible_local do |ansible|
+      ansible.playbook = "/vagrant/playbooks/server1.yml"
+      ansible.install = false
+      ansible.compatibility_mode = "2.0"
+      ansible.inventory_path = "/vagrant/inventory"
+      ansible.config_file = "/vagrant/ansible.cfg"
+      ansible.limit = "all"
+    end
   end
   # Server2.
   config.vm.define "server2" do |server2|
@@ -43,6 +51,14 @@ Vagrant.configure("2") do |config|
         v.customize ['storageattach', :id,  '--storagectl', 'SATA Controller', '--port', 3, '--device', 0, '--type', 'hdd', '--medium', disk2] 
         v.customize ['storageattach', :id,  '--storagectl', 'SATA Controller', '--port', 4, '--device', 0, '--type', 'hdd', '--medium', disk3] 
       end
+    end
+    server2.vm.provision :ansible_local do |ansible|
+      ansible.playbook = "/vagrant/playbooks/server2.yml"
+      ansible.install = false
+      ansible.compatibility_mode = "2.0"
+      ansible.inventory_path = "/vagrant/inventory"
+      ansible.config_file = "/vagrant/ansible.cfg"
+      ansible.limit = "all"
     end
   end
    # # Run Ansible provisioner once for all VMs at the end.
@@ -68,6 +84,14 @@ Vagrant.configure("2") do |config|
   #    inline: "sudo yum update -y"
     workstation.vm.provider :virtualbox do |v|
       v.customize ["modifyvm", :id, "--memory", 4096]
+    end
+    server2.vm.provision :ansible_local do |ansible|
+      ansible.playbook = "/vagrant/playbooks/server2.yml"
+      ansible.install = false
+      ansible.compatibility_mode = "2.0"
+      ansible.inventory_path = "/vagrant/inventory"
+      ansible.config_file = "/vagrant/ansible.cfg"
+      ansible.limit = "all"
     end
   end
 end
