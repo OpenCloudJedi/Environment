@@ -20,7 +20,8 @@ Vagrant.configure("2") do |config|
     server1.vm.box = "bento/centos-8.3"
     server1.vm.hostname = "server1.test"
     server1.vm.network :private_network, ip: "192.168.2.3"
-#    server1.vm.provision "shell",
+    server1.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__exclude: ".git/"
+    #    server1.vm.provision "shell",
 #      inline: "sudo yum update -y"
     server1.vm.provider :virtualbox do |v|
       v.customize ["modifyvm", :id, "--memory", 768]
@@ -39,6 +40,7 @@ Vagrant.configure("2") do |config|
     server2.vm.box = "bento/centos-8.3"
     server2.vm.hostname = "server2.test"
     server2.vm.network :private_network, ip: "192.168.2.4"
+    server2.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__exclude: ".git/"
  #   server2.vm.provision "shell",
  #     inline: "sudo yum update -y"
     server2.vm.provider :virtualbox do |v|
@@ -79,7 +81,7 @@ Vagrant.configure("2") do |config|
     workstation.vm.network :private_network, ip: "192.168.2.5"
     config.vm.box = "jackrayner/fedora-31-workstation"
     config.ssh.insert_key = false
-    config.vm.synced_folder '.', '/vagrant', disabled: true
+    workstation.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__exclude: ".git/"
   #  workstation.vm.provision "shell",
   #    inline: "sudo yum update -y"
     workstation.vm.provider :virtualbox do |v|
