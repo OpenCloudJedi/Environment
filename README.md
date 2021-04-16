@@ -21,11 +21,11 @@ _Gatekeeper will block virtualbox from installing. All you have to do is go into
 3. Change to the `Environment` directory that is now in your `~/bin` directory.
 4. Run `vagrant up` to deploy the environment (If the environment has a designated repo VM it will take the longest to deploy the first time only, this is because the repo system has all the packages available to the base release but will be quicker on subsequent deployments.)
 
-## CentOS/RHEL/Manjaro/Arch - Install all at once by Copy/Pasting the below command into your terminal as root.
+## CentOS/RHEL - Install all at once by Copy/Pasting the below command into your terminal as root.
 _NOTE - If it's been awhile since you've run yum update, do that first. Reboot if the kernel was updated. There may be some dependencies errors but don't be alarmed as this won't stop the environment from working._
 
 _NOTE2 - If you receive an error for an ansible guest vagrant plugin, DO NOT worry, as there are two different plugins related to Ansible and only one needs to be installed._
-##### For CentoOS/RHEL7/Manjaro/Arch (Continue below for RHEL 8 specific script)
+##### For CentoOS/RHEL7 (Continue below for RHEL 8 specific script)
 ```
 systemctl stop packagekit; yum install -y epel-release && yum install -y git binutils gcc make patch libgomp glibc-headers glibc-devel kernel-headers kernel-devel dkms libvirt libvirt-devel ruby-devel libxslt-devel libxml2-devel libguestfs-tools-c ; mkdir ~/Vagrant ; cd ~/Vagrant ; curl -o  vagrant_2.2.6_x86_64.rpm https://releases.hashicorp.com/vagrant/2.2.6/vagrant_2.2.6_x86_64.rpm && yum install -y vagrant_2.2.6_x86_64.rpm && vagrant plugin install vagrant-guest_ansible ; vagrant plugin install vagrant-guest-ansible ; wget -O /etc/yum.repos.d/virtualbox.repo wget http://download.virtualbox.org/virtualbox/rpm/rhel/virtualbox.repo ; yum install -y VirtualBox-6.0 && systemctl start packagekit
 ```
@@ -85,10 +85,9 @@ _NOTE this requires a free Github account_
 
 ## Notable commands to control the environment:
 - `vagrant up` - Boots and provisions the environment
-- `vagrant destroy -f` - Shuts down and destroys the environment
-- `vagrant halt` - Only shuts down the environment VMs (can be booted up with `vagrant up`)
-- `vagrant suspend` - Puts the VMs in a suspended state
-- `vagrant resume` - Takes VMs out of a suspended state
+- `vagrant destroy -f` - Shuts down and destroys all of the vms
+- `vagrant destroy -f server1` - Shuts down and destroys only server1
+- `vagrant destroy -f server2` - Shuts down and destroys only server2
 
 ## Other Useful Information:
 You can also use the VirtualBox console to interact with the VMs or through a terminal. The workstation VM has gnome desktop installed and can be used so you have a linux terminal if you happen to be running Windows. If you need to reset the root password, you would need to use the console. I'm constantly making upgrades to the environments, so every once and awhile run `git pull` in the repo directory to pull down changes. If you're using Windows, it's recommended to use Github Desktop so you can easily pull changes that are made to the environment. The first time you run the vagrant up command, it will download the OS images for later use. In other words, it will take longest the first time around but will be faster when it is deployed again. You can run `vagrant destroy -f` to destroy your environment at anytime. **This will erase everything**. This environment is meant to be reuseable, If you run the `vagrant up` command after destroying the environment, the OS image will already be downloaded and environment will deploy faster. Deployment should take around 15 minutes depending on your computer. You shouldn't need to access the IPA server during your practice exams. Everything should be provided that you would normally need during an actual exam. Hope this helps in your studies!
