@@ -2,11 +2,13 @@
 - name: Configure Server2
   become: true
   hosts: server2
+  gather_facts: False
   tasks:
   - name: Install stuff
     yum:
       name: "{{ item }}"
       state: installed
+      use_backend: YUM4
     loop:
       - policycoreutils
       - firewalld
@@ -24,4 +26,5 @@
   - name: Install New Grub
     shell:
       cmd: grub2-mkconfig > /boot/grub2/grub.cfg
+
 
