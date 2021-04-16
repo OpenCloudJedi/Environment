@@ -2,6 +2,7 @@
 - name: Configure Server2
   become: true
   gather_facts: false
+  strategy: free
   hosts: server2
   tasks:
   - name: Install stuff
