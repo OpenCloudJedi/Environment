@@ -2,16 +2,7 @@
 - name: Configure Server2
   become: true
   hosts: server2
-  gather_facts: False
   tasks:
-  - name: Install stuff
-    yum:
-      name: "{{ item }}"
-      state: installed
-      use_backend: YUM4
-    loop:
-      - policycoreutils
-      - firewalld
   - name: Enable Firewall
     service:
       name: firewalld
@@ -26,5 +17,21 @@
   - name: Install New Grub
     shell:
       cmd: grub2-mkconfig > /boot/grub2/grub.cfg
-
-
+  - name: Disable Vboxadd for faster boot
+    service:
+      name: vboxadd
+      state: stopped
+      enabled: no
+  - name: Set Default target to multi-user 
+    file:
+      src: /usr/lib/systemd/system/multi-user.target
+      dest: /etc/systemd/system/default.target
+      state: link
+  - name: Delete eth0 connection
+    file:
+      path: /etc/sysconfig/network-scripts/ifcfg-eth0
+      state: absent
+  - name: Reboot for multi-user mode
+    reboot:
+      reboot_timeout: 1
+    ignore_errors: true

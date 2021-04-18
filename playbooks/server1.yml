@@ -2,8 +2,25 @@
 - name: Server1
   hosts: server1
   become: yes
-  gather_facts: false
   tasks:
   - name: This is pretty much filler space since the vagrantfile calls upon it
     debug:
       msg: "Hello, is it this file you're looking for? I can see it in your eyes. I can see it in your smile."
+  - name: Disable Vboxadd for faster boot
+    service:
+      name: vboxadd
+      state: stopped
+      enabled: no
+  - name: Set Default target to multi-user 
+    file:
+      src: /usr/lib/systemd/system/multi-user.target
+      dest: /etc/systemd/system/default.target
+      state: link
+  - name: Delete eth0 connection
+    file:
+      path: /etc/sysconfig/network-scripts/ifcfg-eth0
+      state: absent
+  - name: Reboot for multi-user mode
+    reboot:
+      reboot_timeout: 1
+    ignore_errors: true
