@@ -4,18 +4,9 @@
   hosts: localhost
   become: false
   tasks:
-  - name: Change Locale
-    lineinfile:
-      path: /etc/locale.conf
-      state: present
-      regexp: ^LANG
-      line: LANG=en_US.UTF-8
-    become: true
   - name: Add stuff to the /etc/hosts file
     template:
       src: hosts.j2
       dest: /etc/hosts
     become: true
-  - name: Fixing Gnome Keyboard Layout
-    shell:
-      cmd: gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us')]"
+
