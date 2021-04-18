@@ -65,13 +65,20 @@ Vagrant.configure("2") do |config|
       inline: "sudo cp /vagrant/ansible.cfg /etc/ansible/ansible.cfg"
 #    workstation.vm.provision "shell",
 #      inline: "ansible all -i /vagrant/inventory -m ping"
-    workstation.vm.provision "shell",
+    workstation.vm.provision "shell"
       inline: "ansible-playbook -i /vagrant/inventory /vagrant/playbooks/master.yml"
     workstation.vm.provider :virtualbox do |v|
       v.customize ["modifyvm", :id, "--memory", 4096]
       v.customize ["modifyvm", :id, "--cpus", 2]
       v.customize ["modifyvm", :id, "--vram", 128]
       v.customize ["modifyvm", :id, "--accelerate3d", "on"]
+
+      inline: "ansible all -i /vagrant/inventory -m ping"
+    workstation.vm.provision "shell",
+      inline: "ansible-playbook -i /vagrant/inventory /vagrant/playbooks/master.yml"
+    workstation.vm.provider :virtualbox do |v|
+      v.customize ["modifyvm", :id, "--memory", 4096]
+
     end
   end
 end
