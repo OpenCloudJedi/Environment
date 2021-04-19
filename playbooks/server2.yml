@@ -3,10 +3,6 @@
   become: true
   hosts: server2
   tasks:
-  - name: Add stuff to the /etc/hosts file
-    template:
-      src: hosts.j2
-      dest: /etc/hosts
   - name: Enable Firewall
     service:
       name: firewalld
@@ -22,10 +18,10 @@
       src: /usr/lib/systemd/system/multi-user.target
       dest: /etc/systemd/system/default.target
       state: link
-  - name: Delete eth0 connection
-    file:
-      path: /etc/sysconfig/network-scripts/ifcfg-eth0
-      state: absent
+#  - name: Delete eth0 connection
+#    file:
+#      path: /etc/sysconfig/network-scripts/ifcfg-eth0
+#      state: absent
   - name: Reboot for multi-user mode
     reboot:
       reboot_timeout: 1
