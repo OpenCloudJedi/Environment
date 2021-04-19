@@ -9,4 +9,19 @@
       src: hosts.j2
       dest: /etc/hosts
     become: true
-
+  - name: Copy Studyguides into homedir
+    copy:
+      src: /vagrant/StudyGuides
+      dest: /home/vagrant/
+      owner: vagrant
+      group: vagrant
+  - name: Make files executable
+    file:
+      path: "{{ item }}"
+      owner: vagrant
+      group: vagrant
+      mode: '0777'
+      state: file
+    loop:
+      - /vagrant/StudyGuides/OuterLimits.sh
+      - /vagrant/StudyGuides/TailsFromTheScript.sh
