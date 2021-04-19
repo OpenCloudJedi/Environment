@@ -83,6 +83,8 @@ Vagrant.configure("2") do |config|
     workstation.vm.provision "shell",
       inline: "sudo cp /vagrant/inventory /etc/ansible/inventory"
     workstation.vm.provision "shell",
+      inline: "chmod +x /vagrant/provision.sh"
+    workstation.vm.provision "shell",
       inline: "bash /vagrant/provision.sh"
     workstation.vm.provider :virtualbox do |v|
       v.customize ["modifyvm", :id, "--memory", 4096]
