@@ -24,7 +24,6 @@
       state: directory
   - name: Copy auth.json to containers folder
     copy:
-      remote_src: yes
       src: /vagrant/auth.json
       dest: /run/user/1000/containers/auth.json
       owner: vagrant
