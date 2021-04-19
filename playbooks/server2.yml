@@ -3,6 +3,10 @@
   become: true
   hosts: server2
   tasks:
+  - name: Add stuff to the /etc/hosts file
+    template:
+      src: hosts.j2
+      dest: /etc/hosts
   - name: Enable Firewall
     service:
       name: firewalld
