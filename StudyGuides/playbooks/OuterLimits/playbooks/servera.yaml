@@ -95,6 +95,8 @@
         enabled: yes
         name: extra_repo.repo
         description: epel
+    - name: enable old module stream for container-tools
+      command: yum module enable container-tools:1.0
     - name: Install nfs
       yum:
         name: nfs-utils
