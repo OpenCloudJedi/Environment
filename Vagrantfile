@@ -55,9 +55,9 @@ Vagrant.configure("2") do |config|
         v.customize ['createhd', '--filename', disk1, '--variant', 'Fixed', '--size', 2 * 1024]
         v.customize ['createhd', '--filename', disk2, '--variant', 'Fixed', '--size', 1 * 1024]
         v.customize ['createhd', '--filename', disk3, '--variant', 'Fixed', '--size', 1 * 1024]
-        v.customize ['storageattach', :id,  '--storagectl', 'SATA', '--port', 2, '--device', 0, '--type', 'hdd', '--medium', disk1] 
-        v.customize ['storageattach', :id,  '--storagectl', 'SATA', '--port', 3, '--device', 0, '--type', 'hdd', '--medium', disk2] 
-        v.customize ['storageattach', :id,  '--storagectl', 'SATA', '--port', 4, '--device', 0, '--type', 'hdd', '--medium', disk3] 
+        v.customize ['storageattach', :id,  '--storagectl', 'SATA', '--port', 2, '--device', 0, '--type', 'hdd', '--medium', disk1]
+        v.customize ['storageattach', :id,  '--storagectl', 'SATA', '--port', 3, '--device', 0, '--type', 'hdd', '--medium', disk2]
+        v.customize ['storageattach', :id,  '--storagectl', 'SATA', '--port', 4, '--device', 0, '--type', 'hdd', '--medium', disk3]
       end
     end
     server2.vm.provider :libvirt do |libvirt|
@@ -69,7 +69,7 @@ Vagrant.configure("2") do |config|
       libvirt.storage :file, :size => '1G', :bus => 'sata', :device => 'sdd'
     end
   end
-   
+
 # Gnome box.
   # Workstation.
   config.vm.define "workstation" do |workstation|
