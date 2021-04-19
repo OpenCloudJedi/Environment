@@ -15,6 +15,10 @@ Vagrant.configure("2") do |config|
     v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
     v.customize ["modifyvm", :id, "--ioapic", "on"]
   end
+  config.vm.provider :libvirt do |libvirt|
+    libvirt.cpus = 1
+    libvirt.memory = 1024
+  end
   # server1.
   config.vm.define "server1" do |server1|
     server1.vm.box = "m1k3bu11/CentOS8.3-Workstation"
@@ -27,6 +31,11 @@ Vagrant.configure("2") do |config|
       v.customize ["modifyvm", :id, "--cpus", 1]
       v.customize ["modifyvm", :id, "--vram", 12]
       v.customize ["modifyvm", :id, "--accelerate3d", "off"]
+    end
+    server1.vm.provider :libvirt do |libvirt|
+      libvirt.memory = 786
+      libvirt.cpus = 1
+      libvirt.video_vram = 12
     end
   end
   # Server2.
@@ -51,6 +60,14 @@ Vagrant.configure("2") do |config|
         v.customize ['storageattach', :id,  '--storagectl', 'SATA', '--port', 4, '--device', 0, '--type', 'hdd', '--medium', disk3] 
       end
     end
+    server2.vm.provider :libvirt do |libvirt|
+      libvirt.memory = 786
+      libvirt.cpus = 1
+      libvirt.video_vram = 12
+      libvirt.storage :file, :size => '2G', :bus => 'sata', :device => 'sdb'
+      libvirt.storage :file, :size => '1G', :bus => 'sata', :device => 'sdc'
+      libvirt.storage :file, :size => '1G', :bus => 'sata', :device => 'sdd'
+    end
   end
    
 # Gnome box.
@@ -65,20 +82,18 @@ Vagrant.configure("2") do |config|
       inline: "sudo cp /vagrant/ansible.cfg /etc/ansible/ansible.cfg"
     workstation.vm.provision "shell",
       inline: "sudo cp /vagrant/inventory /etc/ansible/inventory"
-    workstation.vm.provision "shell"
-      inline: "ansible-playbook -i /vagrant/inventory /vagrant/playbooks/master.yml"
+    workstation.vm.provision "shell",
+      inline: "bash /vagrant/provision.sh"
     workstation.vm.provider :virtualbox do |v|
       v.customize ["modifyvm", :id, "--memory", 4096]
       v.customize ["modifyvm", :id, "--cpus", 2]
       v.customize ["modifyvm", :id, "--vram", 128]
       v.customize ["modifyvm", :id, "--accelerate3d", "on"]
-
-      inline: "ansible all -i /vagrant/inventory -m ping"
-    workstation.vm.provision "shell",
-      inline: "ansible-playbook -i /vagrant/inventory /vagrant/playbooks/master.yml"
-    workstation.vm.provider :virtualbox do |v|
-      v.customize ["modifyvm", :id, "--memory", 4096]
-
+    end
+    workstation.vm.provider :libvirt do |libvirt|
+      libvirt.memory = 4096
+      libvirt.cpus = 2
+      libvirt.video_vram = 128
     end
   end
 end
