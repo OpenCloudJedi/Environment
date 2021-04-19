@@ -46,13 +46,13 @@ Vagrant.configure("2") do |config|
         v.customize ['createhd', '--filename', disk1, '--variant', 'Fixed', '--size', 2 * 1024]
         v.customize ['createhd', '--filename', disk2, '--variant', 'Fixed', '--size', 1 * 1024]
         v.customize ['createhd', '--filename', disk3, '--variant', 'Fixed', '--size', 1 * 1024]
-        v.customize ['storageattach', :id,  '--storagectl', 'SATA', '--port', 2, '--device', 0, '--type', 'hdd', '--medium', disk1] 
-        v.customize ['storageattach', :id,  '--storagectl', 'SATA', '--port', 3, '--device', 0, '--type', 'hdd', '--medium', disk2] 
-        v.customize ['storageattach', :id,  '--storagectl', 'SATA', '--port', 4, '--device', 0, '--type', 'hdd', '--medium', disk3] 
+        v.customize ['storageattach', :id,  '--storagectl', 'SATA', '--port', 2, '--device', 0, '--type', 'hdd', '--medium', disk1]
+        v.customize ['storageattach', :id,  '--storagectl', 'SATA', '--port', 3, '--device', 0, '--type', 'hdd', '--medium', disk2]
+        v.customize ['storageattach', :id,  '--storagectl', 'SATA', '--port', 4, '--device', 0, '--type', 'hdd', '--medium', disk3]
       end
     end
   end
-   
+
 # Gnome box.
   # Workstation.
   config.vm.define "workstation" do |workstation|
@@ -67,18 +67,10 @@ Vagrant.configure("2") do |config|
 #      inline: "ansible all -i /vagrant/inventory -m ping"
     workstation.vm.provision "shell"
       inline: "ansible-playbook -i /vagrant/inventory /vagrant/playbooks/master.yml"
-    workstation.vm.provider :virtualbox do |v|
-      v.customize ["modifyvm", :id, "--memory", 4096]
-      v.customize ["modifyvm", :id, "--cpus", 2]
-      v.customize ["modifyvm", :id, "--vram", 128]
-      v.customize ["modifyvm", :id, "--accelerate3d", "on"]
-
-      inline: "ansible all -i /vagrant/inventory -m ping"
     workstation.vm.provision "shell",
       inline: "ansible-playbook -i /vagrant/inventory /vagrant/playbooks/master.yml"
     workstation.vm.provider :virtualbox do |v|
       v.customize ["modifyvm", :id, "--memory", 4096]
-
     end
   end
 end
