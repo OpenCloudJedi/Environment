@@ -6,6 +6,11 @@
   - name: This is pretty much filler space since the vagrantfile calls upon it
     debug:
       msg: "Hello, is it this file you're looking for? I can see it in your eyes. I can see it in your smile."
+  - name: Add stuff to the /etc/hosts file
+    template:
+      src: hosts.j2
+      dest: /etc/hosts
+    become: true
   - name: Disable Vboxadd for faster boot
     service:
       name: vboxadd
