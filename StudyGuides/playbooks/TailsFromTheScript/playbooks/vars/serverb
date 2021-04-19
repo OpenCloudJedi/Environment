@@ -1,0 +1,14 @@
+gradescript: tails_serverb.sh
+vdb_partsize: 256MiB
+uninviteduser: uninviteduser
+existingmountpoint: /Imminent/
+existingvgname: Plot
+existingpesize: 16M
+
+existinglvname: Twist
+existinglvsize: 400M
+
+existingfstype: ext4
+
+existingfslow: 350
+existingfshigh: 450

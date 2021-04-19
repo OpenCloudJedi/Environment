@@ -1,0 +1,145 @@
+---
+- name: Building environment for rhcsa Server B
+  hosts: serverb
+  become: yes
+  vars_files: vars/serverb
+  tasks:
+    - name: install git, autofs and package for mkpasswd
+      yum:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - git
+        - expect
+        - autofs
+    - name: Get register to check if "{{ gradescript }}" already exists in case you have to run this again
+      stat:
+        path: /home/student/{{ gradescript }}
+      register: istails
+    - name: Git clone for "{{ gradescript }}"
+      block:
+      - name: Gitclone for "{{ gradescript }}"
+        git:
+          repo: https://github.com/OpenCloudJedi/PeteTong.git
+          dest: /home/student/Project
+      - name: Move {{ gradescript }} to /root/
+        command: mv /home/student/Project/{{ gradescript }} /home/student/
+      - name: Add executable permissions to the tails file    
+        file: 
+          path: /home/student/{{ gradescript }}
+          mode: +x
+      - name: Remove git clone folder
+        file:
+          path: /home/student/Project
+          state: absent
+        # Used git to make this more elegant than just command: wget. That is probably much more elegant than this spaghetti
+      when: istails.stat.exists == False
+      rescue:
+      - name: Manually add github dns for some reason
+        lineinfile:
+          line: 140.82.113.4    github.com
+          path: /etc/hosts
+          state: present
+      - name: Gitclone for "{{ gradescript }}"
+        git:
+          repo: https://github.com/OpenCloudJedi/PeteTong.git
+          dest: /home/student/Project
+      - name: Move "{{ gradescript }}" to /root/
+        command: mv /home/student/Project/{{ gradescript }} /home/student/
+      - name: Add executable permissions to the tails file    
+        file: 
+          path: /home/student/{{ gradescript }}
+          mode: +x
+      - name: Remove git clone folder
+        file:
+          path: /home/student/Project
+          state: absent
+
+    - name: Change password for root
+      shell: mkpasswd -l 20 | passwd --stdin root
+    - name: Change password for student
+      shell: mkpasswd -l 20 | passwd --stdin root
+    - name: Make uninviteduser
+      user:
+        name: "{{ uninviteduser }}"
+        state: present
+        home: /home-directories/{{ uninviteduser }}
+    - name: Make "{{ existingmountpoint }}"
+      file:
+        path: "{{ existingmountpoint }}"
+        state: directory
+    - name: Change tuned profiles to something else pt1
+      copy:
+        content: throughput-performance
+        dest: /etc/tuned/active_profile
+    - name:
+      copy:
+        content: manual
+        dest: /etc/tuned/profile_mode
+    - name: Parted 2 partitions 1st
+      parted:
+        device: /dev/vdb
+        number: 1
+        part_end: "{{ vdb_partsize }}"
+        state: present
+        part_type: primary
+    - name: Parted 2 partitions 2nd
+      parted:
+        device: /dev/vdb
+        number: 2
+        part_end: 1024MiB
+        state: present
+        part_type: primary
+        part_start: 257MiB
+    - name: Partprobe
+      command: partprobe
+    - name: Mkswap for /dev/vdb1
+      command: mkswap /dev/vdb1
+    - name: Create VG "{{ existingvgname }}"
+      lvg:
+        vg: "{{ existingvgname }}"
+        pvs: /dev/vdb2
+        pesize: "{{ existingpesize }}"
+    - name: Create LV "{{ existinglvname }}"
+      lvol:
+        lv: "{{ existinglvname }}"
+        size: "{{ existinglvsize }}"
+        state: present
+        vg: "{{ existingvgname }}"
+    - name: Make the LV have "{{ existingfstype }}"
+      filesystem:
+        dev: /dev/{{ existingvgname }}/{{ existinglvname }}
+        fstype: "{{ existingfstype }}"
+    - name: Edit default grub
+      lineinfile:
+        regexp: ^TIMEOUT=
+        line: TIMEOUT=20
+        state: present
+        path: /etc/default/grub
+    - name: Update grub timeout
+      shell: grub2-mkconfig > /boot/grub2/grub.cfg
+    - name: Add our VG and swap to /etc/fstab
+      blockinfile:
+        path: /etc/fstab
+        block: |
+            /dev/vdb1 swap  swap  defaults  0 0
+            /dev/{{ existingvgname }}/{{ existinglvname }}  {{ existingmountpoint }}  {{ existingfstype }} defaults 0 0
+    - name: Swapon
+      command: swapon -a
+    - name: Bork connection
+      template:
+        src: templates/conn.j2
+        dest: /etc/sysconfig/network-scripts/ifcfg-Wired_connection_1
+    - name: Create a bashscript to run in the background 
+      copy:
+        content: |
+                #!/bin/bash
+                sleep 8
+                nmcli con reload
+        dest: /tmp/reload.sh
+        mode: '0777'
+    - name: Reload Nmcli
+      shell: /tmp/reload.sh
+      async: 4
+      poll: 1
+      ignore_errors: yes

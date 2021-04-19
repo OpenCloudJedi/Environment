@@ -1,0 +1,12 @@
+listen 83
+<VirtualHost *:83>
+        ServerName      localhost
+        ServerAlias     servera.lab.example.com
+        DocumentRoot    $DOCROOT
+        CustomLog       logs/localhost.access.log combined
+        ErrorLog        logs/localhost.error.log
+</VirtualHost>
+<Directory $DOCROOT>
+Require all granted
+</Directory>
+
