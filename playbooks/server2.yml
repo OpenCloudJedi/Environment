@@ -12,15 +12,6 @@
       name: firewalld
       state: started
       enabled: yes 
-  - name: Grub Timeout 
-    lineinfile:
-      dest: /etc/default/grub
-      state: present
-      regexp: ^GRUB_TIMEOUT
-      line: GRUB_TIMEOUT=20
-  - name: Install New Grub
-    shell:
-      cmd: grub2-mkconfig > /boot/grub2/grub.cfg
   - name: Disable Vboxadd for faster boot
     service:
       name: vboxadd
