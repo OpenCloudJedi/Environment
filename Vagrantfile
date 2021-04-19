@@ -65,7 +65,7 @@ Vagrant.configure("2") do |config|
       inline: "sudo cp /vagrant/ansible.cfg /etc/ansible/ansible.cfg"
 #    workstation.vm.provision "shell",
 #      inline: "ansible all -i /vagrant/inventory -m ping"
-    workstation.vm.provision "shell"
+    workstation.vm.provision "shell",
       inline: "ansible-playbook -i /vagrant/inventory /vagrant/playbooks/master.yml"
     workstation.vm.provision "shell",
       inline: "ansible-playbook -i /vagrant/inventory /vagrant/playbooks/master.yml"
