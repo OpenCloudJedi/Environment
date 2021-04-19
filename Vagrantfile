@@ -63,8 +63,8 @@ Vagrant.configure("2") do |config|
     workstation.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__exclude: [".git/", "disk-0-1.vdi", "disk-0-2.vdi", "disk-0-3.vdi"]
     workstation.vm.provision "shell",
       inline: "sudo cp /vagrant/ansible.cfg /etc/ansible/ansible.cfg"
-#    workstation.vm.provision "shell",
-#      inline: "ansible all -i /vagrant/inventory -m ping"
+    workstation.vm.provision "shell",
+      inline: "sudo cp /vagrant/inventory /etc/ansible/inventory"
     workstation.vm.provision "shell"
       inline: "ansible-playbook -i /vagrant/inventory /vagrant/playbooks/master.yml"
     workstation.vm.provider :virtualbox do |v|
