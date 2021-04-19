@@ -6,11 +6,6 @@
   - name: This is pretty much filler space since the vagrantfile calls upon it
     debug:
       msg: "Hello, is it this file you're looking for? I can see it in your eyes. I can see it in your smile."
-  - name: Add stuff to the /etc/hosts file
-    template:
-      src: hosts.j2
-      dest: /etc/hosts
-    become: true
   - name: Disable Vboxadd for faster boot
     service:
       name: vboxadd
@@ -21,18 +16,10 @@
       src: /usr/lib/systemd/system/multi-user.target
       dest: /etc/systemd/system/default.target
       state: link
-  - name: Create folder for next play
-    file:
-      owner: vagrant
-      group: vagrant
-      path: /run/user/1000/containers
-      state: directory
-  - name: Copy auth.json to containers folder
-    copy:
-      src: /vagrant/auth.json
-      dest: /run/user/1000/containers/auth.json
-      owner: vagrant
-      group: vagrant
+#  - name: Delete eth0 connection
+#    file:
+#      path: /etc/sysconfig/network-scripts/ifcfg-eth0
+#      state: absent
   - name: Reboot for multi-user mode
     reboot:
       reboot_timeout: 1
