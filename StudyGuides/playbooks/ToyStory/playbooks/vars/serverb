@@ -1,0 +1,18 @@
+studyguide: Toy Story
+student: vagrant
+homedir: bonnies_trash
+gradescript: ToyStory2.sh
+vdb_partsize: 256MiB
+blockdev2: sdb
+uninviteduser: forky
+existingmountpoint: /VendingMachine/
+existingvgname: Lotso
+existingpesize: 4M
+
+existinglvname: Gang
+existinglvsize: 256M
+
+existingfstype: xfs
+
+existingfslow: 350
+existingfshigh: 450

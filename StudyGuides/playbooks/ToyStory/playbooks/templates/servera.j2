@@ -1,0 +1,12 @@
+listen {{ apacheport }}
+<VirtualHost *:{{ apacheport }}>
+        ServerName      localhost
+        ServerAlias     {{ ansible_fqdn }}
+        DocumentRoot    {{ docroot }}
+        CustomLog       logs/localhost.access.log combined
+        ErrorLog        logs/localhost.error.log
+</VirtualHost>
+<Directory {{ docroot }}>
+Require all granted
+</Directory>
+

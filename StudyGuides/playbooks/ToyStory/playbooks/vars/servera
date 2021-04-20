@@ -1,0 +1,20 @@
+studyguide: Toy Story
+student: vagrant
+homedir: bonnies_trash
+user: Zurg
+userdesc: Gahhhh
+uninviteduser: forky
+docroot: /Pizza_Planet/
+file1: /tmp/ion-blaster
+file2: /var/log/evil
+file3: /etc/DarthVader.config
+file4: /home/galaxy
+gradescript: ToyStory1.sh
+conname: ifcfg-eth1
+borkip: 192.168.1.30
+borkgw: 192.168.1.0
+condev: eth1
+apacheport: 84
+vagrantsync: /vagrant/
+#You can get the following info from $XDG_RUNTIME_DIR if having issues
+xdg: /run/user/1000/
