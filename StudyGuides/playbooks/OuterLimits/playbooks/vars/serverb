@@ -7,7 +7,7 @@ blockdev2: sdb
 uninviteduser: drifter 
 existingmountpoint: /TwistAtEnd/
 existingvgname: Plot
-existingpesize: 8M
+existingpesize: 4M
 
 existinglvname: Thickens
 existinglvsize: 256M

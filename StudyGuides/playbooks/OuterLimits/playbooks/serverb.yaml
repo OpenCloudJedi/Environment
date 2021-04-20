@@ -26,7 +26,7 @@
         command: mv /home/{{ student }}/Project/{{ gradescript }} /home/{{ student }}/
       - name: Add executable permissions to the tails file    
         file: 
-          path: /home/{{ student }}/{{ gradescript }}
+          path: /home/{{ student }}/Project/{{ gradescript }}
           mode: +x
       - name: Remove git clone folder
         file:
