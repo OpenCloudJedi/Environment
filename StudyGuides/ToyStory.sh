@@ -1,2 +1,2 @@
 #!/bin/bash
-ansible-playbook /home/vagrant/StudyGuide/playbooks/ToyStory/deploy.yml
+ansible-playbook playbooks/ToyStory/deploy.yml
