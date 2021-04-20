@@ -9,7 +9,7 @@ file1: /tmp/ion-blaster
 file2: /var/log/evil
 file3: /etc/DarthVader.config
 file4: /home/galaxy
-gradescript: nolimitserver1.sh
+gradescript: ToyStory1.sh
 conname: ifcfg-eth1
 borkip: 192.168.1.30
 borkgw: 192.168.1.0
