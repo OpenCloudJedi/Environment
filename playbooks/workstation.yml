@@ -24,3 +24,4 @@
     loop:
       - /vagrant/StudyGuides/OuterLimits.sh
       - /vagrant/StudyGuides/TailsFromTheScript.sh
+      - /vagrant/StudyGuides/podman.sh
