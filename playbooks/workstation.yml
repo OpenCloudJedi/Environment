@@ -20,8 +20,8 @@
       path: "{{ item }}"
       owner: vagrant
       group: vagrant
-      mode: '0777'
-      state: file
+      mode: +x
     loop:
-      - /vagrant/StudyGuides/OuterLimits.sh
-      - /vagrant/StudyGuides/TailsFromTheScript.sh
+      - /home/vagrant/StudyGuides/OuterLimits.sh
+      - /home/vagrant/StudyGuides/TailsFromTheScript.sh
+      - /home/vagrant/StudyGuides/podman.sh
