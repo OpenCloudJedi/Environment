@@ -1,7 +1,7 @@
 studyguide: Toy Story
 student: vagrant
 homedir: bonnies_trash
-gradescript: nolimitserver2.sh
+gradescript: ToyStory2.sh
 vdb_partsize: 256MiB
 blockdev2: sdb
 uninviteduser: forky
