@@ -1,0 +1,177 @@
+---
+- name: Welcome to "{{ studyguide }}" 
+  hosts: server1
+  become: yes
+  vars_files: vars/servera
+  tasks:
+    - name: Installing Container Folder
+      file:
+        state: directory
+        owner: "{{ student }}"
+        group: "{{ student }}"
+        path: "{{ xdg }}"
+    - name: Copying auth.json
+      copy:
+        group: "{{ student }}"
+        owner: "{{ student }}"
+        dest: "{{ xdg }}auth.json"
+        src: "{{ vagrantsync }}auth.json"
+    - name: Install git
+      yum:
+        name: git
+        state: present
+    - name: Get register to check if {{ gradescript }} already exists in case you have to run this again
+      stat:
+        path: /home/{{ student }}/{{ gradescript }}
+      register: istails
+    - name: Git clone for {{ gradescript }}
+      block:
+      - name: Gitclone for {{ gradescript }}
+        git:
+          repo: https://github.com/OpenCloudJedi/PeteTong.git
+          dest: /home/{{ student }}/Project
+      - name: Move {{ gradescript }} to {{ student }}
+        command: mv /home/{{ student }}/Project/{{ gradescript }} /home/{{ student }}/
+      - name: Add executable permissions to the {{ gradescript }} file    
+        file: 
+          path: /home/{{ student }}/{{ gradescript }}
+          mode: +x
+      - name: Remove git clone folder
+        file:
+          path: /home/{{ student }}/Project
+          state: absent
+        # Used git to make this more elegant than just command: wget. That is probably much more elegant than this spaghetti
+      when: istails.stat.exists == False
+      rescue:
+      - name: Manually add github dns for some reason
+        lineinfile:
+          line: 140.82.113.4    github.com
+          path: /etc/hosts
+          state: present
+      - name: Gitclone for {{ gradescript }}
+        git:
+          repo: https://github.com/OpenCloudJedi/PeteTong.git
+          dest: /home/{{ student }}/Project
+      - name: Move {{ gradescript }} to "{{ student }}'s" home
+        command: mv /home/{{ student }}/Project/{{ gradescript }} /home/{{ student }}/
+      - name: Add executable permissions to the tails file    
+        file:
+          path: /home/{{ student }}/{{ gradescript }}
+          mode: +x
+      - name: Remove git clone folder
+        file:
+          path: /home/{{ student }}/Project
+          state: absent
+
+    - name: Make folder "{{ docroot }}"
+      file:
+        path: "{{ docroot }}"
+        state: directory
+    - name: Create an index.html file
+      template:
+        src: templates/index.j2
+        dest: "{{ docroot }}/index.html"
+    - name: Install apache
+      yum:
+        name: httpd
+        state: present
+    - name: Create httpd servera.conf
+      template:
+        src: templates/servera.j2
+        dest: /etc/httpd/conf.d/servera.conf
+    - name: Make folder "{{ homedir }} and folder for {{ uninviteduser }}"
+      file:
+        path: /{{ homedir }}/{{ uninviteduser }}
+        state: directory
+        mode: '0777'
+    - name: Make an /etc/exports file with /homedir/uninviteduser in it
+      template:
+        src: templates/exports.j2
+        dest: /etc/exports
+    - name: Install a repo
+      yum_repository: 
+        baseurl: https://dl.fedoraproject.org/pub/epel/8/Everything/x86_64/
+        gpgcheck: 0
+        enabled: yes
+        name: extra_repo.repo
+        description: epel
+    - name: Reset container-tools before changing module stream.
+      command: yum module reset container-tools -y
+    - name: enable old module stream for container-tools
+      command: yum module enable container-tools:1.0 -y
+    - name: Install nfs
+      yum:
+        name: nfs-utils
+        state: installed
+    - name: Enable nfs-server
+      service:
+        name: nfs-server
+        state: started
+        enabled: yes
+    - name: Exportfs
+      command: exportfs
+    - name: Configure firewalld for nfs 
+      firewalld:
+        service: nfs
+        permanent: yes
+        state: enabled
+        immediate: yes
+    - name: Remove cockpit
+      firewalld:
+        service: cockpit
+        zone: public
+        permanent: yes
+        immediate: yes
+        state: disabled
+    - name: be a jerk
+      yum:
+        name: "{{ item }}"
+        state: absent
+      loop:
+        - vim
+        - cockpit
+        - podman
+    - name: Add user "{{ user }}"
+      user:
+        name: "{{ user }}"
+        comment: "{{ userdesc }}"
+    - name: Add a ton of files
+      file:
+        owner: "{{ user }}"
+        group: "{{ user }}"
+        state: touch
+        path: "{{ item }}"
+      loop:
+        - "{{ file1 }}"
+        - "{{ file2 }}"
+        - "{{ file3 }}"
+        - "{{ file4 }}"
+    - name: Run setsebool the "wrong" way
+      command: setsebool -P use_nfs_home_dirs 1
+    - name: Find all repos and put them in a register
+      find:
+        paths: /etc/yum.repos.d
+        patterns: "*.repo"
+      register: therepos
+    - name: Remove the repo files
+      loop: "{{ therepos.files }}"
+      file:
+        path: "{{ item.path }}"
+        state: absent
+    - name: Bork connection for intravm connection
+      template:
+        src: templates/conn.j2
+        dest: /etc/sysconfig/network-scripts/{{ conname }}
+    - name: Create a bashscript to run in the background 
+      copy:
+        content: |
+                #!/bin/bash
+                sleep 8
+                nmcli con reload
+        dest: /tmp/reload.sh
+        mode: '0777'
+    - name: Reload  
+      shell: /tmp/reload.sh
+      async: 4
+      poll: 1
+      ignore_errors: yes
