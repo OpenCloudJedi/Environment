@@ -1,5 +1,5 @@
 ---
 - name: Deploy Server A
   import_playbook: playbooks/servera.yaml
-- name: Deploy Sever B
+- name: Deploy Server B
   import_playbook: playbooks/serverb.yaml
