@@ -6,4 +6,4 @@ file1: /tmp/pun
 file2: /var/log/twisted
 file3: /etc/sadistic
 file4: /home/invasion
-gradescript: tails_servera.sh
+gradescript: HorrorAtHome1.sh
