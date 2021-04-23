@@ -1,3 +1,4 @@
+student: vagrant
 gradescript: tails_serverb.sh
 vdb_partsize: 256MiB
 uninviteduser: uninviteduser
