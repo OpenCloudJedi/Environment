@@ -120,24 +120,7 @@
       blockinfile:
         path: /etc/fstab
         block: |
-            /dev/vdb1 swap  swap  defaults  0 0
+            /dev/sdb1 swap  swap  defaults  0 0
             /dev/{{ existingvgname }}/{{ existinglvname }}  {{ existingmountpoint }}  {{ existingfstype }} defaults 0 0
     - name: Swapon
       command: swapon -a
-    - name: Bork connection
-      template:
-        src: templates/conn.j2
-        dest: /etc/sysconfig/network-scripts/ifcfg-Wired_connection_1
-    - name: Create a bashscript to run in the background 
-      copy:
-        content: |
-                #!/bin/bash
-                sleep 8
-                nmcli con reload
-        dest: /tmp/reload.sh
-        mode: '0777'
-    - name: Reload Nmcli
-      shell: /tmp/reload.sh
-      async: 4
-      poll: 1
-      ignore_errors: yes
