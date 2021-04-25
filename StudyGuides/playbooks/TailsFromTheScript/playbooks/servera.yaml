@@ -26,7 +26,7 @@
           mode: +x
       - name: Remove git clone folder
         file:
-          path: /home/{{ student}} /Project
+          path: /home/{{ student}}/Project
           state: absent
         # Used git to make this more elegant than just command: wget. That is probably much more elegant than this spaghetti
       when: istails.stat.exists == False
