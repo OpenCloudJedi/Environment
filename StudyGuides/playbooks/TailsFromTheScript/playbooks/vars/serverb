@@ -1,5 +1,5 @@
 student: vagrant
-gradescript: HorrorAtHome1.sh
+gradescript: HorrorAtHome2.sh
 vdb_partsize: 256MiB
 uninviteduser: uninviteduser
 existingmountpoint: /Imminent/
