@@ -19,7 +19,7 @@
           repo: https://github.com/OpenCloudJedi/PeteTong.git
           dest: /home/{{ student}}/Project
       - name: Move {{ gradescript }} to /root/
-        command: mv /home/{{ student }}/Project/{{ gradescript }} /home/student/
+        command: mv /home/{{ student }}/Project/{{ gradescript }} /home/{{ student }}/
       - name: Add executable permissions to the tails file    
         file: 
           path: /home/{{ student }}/{{ gradescript }}
