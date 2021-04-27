@@ -77,17 +77,17 @@
       parted:
         device: /dev/{{ blockdev2 }}
         number: 1
-        part_end: "{{ vdb_partsize }}"
+        part_end: "{{ sdb_partsize }}"
         state: present
         part_type: primary
     - name: Parted 2 partitions 2nd
       parted:
         device: /dev/{{ blockdev2 }}
         number: 2
-        part_end: 1024MiB
+        part_end: "{{ sdb2_end }}"
         state: present
         part_type: primary
-        part_start: 257MiB
+        part_start: "{{ sdb2_start }}"
     - name: Partprobe
       command: partprobe
     - name: Mkswap for /dev/{{ blockdev2 }}1
