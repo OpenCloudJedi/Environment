@@ -53,8 +53,8 @@ Vagrant.configure("2") do |config|
       v.customize ["modifyvm", :id, "--accelerate3d", "off"]
       unless File.exist?(disk1)
         v.customize ['createhd', '--filename', disk1, '--variant', 'Fixed', '--size', 2 * 1024]
-        v.customize ['createhd', '--filename', disk2, '--variant', 'Fixed', '--size', 1 * 1024]
-        v.customize ['createhd', '--filename', disk3, '--variant', 'Fixed', '--size', 4 * 1024]
+        v.customize ['createhd', '--filename', disk2, '--variant', 'Fixed', '--size', 4 * 1024]
+        v.customize ['createhd', '--filename', disk3, '--variant', 'Fixed', '--size', 1 * 1024]
         v.customize ['storageattach', :id,  '--storagectl', 'SATA', '--port', 2, '--device', 0, '--type', 'hdd', '--medium', disk1]
         v.customize ['storageattach', :id,  '--storagectl', 'SATA', '--port', 3, '--device', 0, '--type', 'hdd', '--medium', disk2]
         v.customize ['storageattach', :id,  '--storagectl', 'SATA', '--port', 4, '--device', 0, '--type', 'hdd', '--medium', disk3]
@@ -65,8 +65,8 @@ Vagrant.configure("2") do |config|
       libvirt.cpus = 1
       libvirt.video_vram = 12
       libvirt.storage :file, :size => '2G', :bus => 'sata', :device => 'sdb'
-      libvirt.storage :file, :size => '1G', :bus => 'sata', :device => 'sdc'
-      libvirt.storage :file, :size => '4G', :bus => 'sata', :device => 'sdd'
+      libvirt.storage :file, :size => '4G', :bus => 'sata', :device => 'sdc'
+      libvirt.storage :file, :size => '1G', :bus => 'sata', :device => 'sdd'
     end
   end
 
