@@ -8,6 +8,6 @@ existinglvname: Twist
 existinglvsize: 400M
 
 existingfstype: ext4
-sdb_partsize: 256M
-sdb2_start: 256M
-sdb2_end: 1024M
+sdb_partsize: 256MB
+sdb2_start: 256MB
+sdb2_end: 1024MB

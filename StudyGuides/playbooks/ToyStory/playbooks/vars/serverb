@@ -12,6 +12,6 @@ existinglvname: Gang
 existinglvsize: 256M
 
 existingfstype: xfs
-sdb_partsize: 256M
-sdb2_start: 256M
-sdb2_end: 1024M
+sdb_partsize: 256MB
+sdb2_start: 256MB
+sdb2_end: 1024MB
