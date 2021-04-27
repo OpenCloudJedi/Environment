@@ -1,15 +1,13 @@
 student: vagrant
 gradescript: HorrorAtHome2.sh
-vdb_partsize: 256MiB
 uninviteduser: uninviteduser
 existingmountpoint: /Imminent/
 existingvgname: Plot
 existingpesize: 16M
-
 existinglvname: Twist
 existinglvsize: 400M
 
 existingfstype: ext4
-
-existingfslow: 350
-existingfshigh: 450
+sdb_partsize: 256M
+sdb2_start: 256M
+sdb2_end: 1024M

@@ -2,17 +2,13 @@ studyguide: The Outer Limits
 student: vagrant
 homedir: hung_hat
 gradescript: nolimitserver2.sh
-vdb_partsize: 256MiB
 blockdev2: sdb
 uninviteduser: drifter 
 existingmountpoint: /TwistAtEnd/
 existingvgname: Plot
 existingpesize: 4M
-
 existinglvname: Thickens
-existinglvsize: 256M
-
 existingfstype: xfs
-
-existingfslow: 350
-existingfshigh: 450
+sdb_partsize: 256M
+sdb2_start: 256M
+sdb2_end: 1024M
