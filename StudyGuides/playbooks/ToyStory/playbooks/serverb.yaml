@@ -126,6 +126,7 @@
         - vdo
         - kvdo-vdo
         - stratis*
+        - dracut
     - name: Add our VG and swap to /etc/fstab
       blockinfile:
         path: /etc/fstab
