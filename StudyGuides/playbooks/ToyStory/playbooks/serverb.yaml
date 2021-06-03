@@ -61,6 +61,7 @@
         name: "{{ uninviteduser }}"
         state: present
         home: /{{ homedir }}/{{ uninviteduser }}
+        create_home: false
     - name: Make "{{ existingmountpoint }}"
       file:
         path: "{{ existingmountpoint }}"
