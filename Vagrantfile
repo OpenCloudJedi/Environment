@@ -47,13 +47,13 @@ Vagrant.configure("2") do |config|
     #server2.vm.provision "shell",
     #  inline: "sudo yum update -y"
     server2.vm.provider :virtualbox do |v|
-      v.customize ["modifyvm", :id, "--memory", 768]
+      v.customize ["modifyvm", :id, "--memory", 1024]
       v.customize ["modifyvm", :id, "--cpus", 1]
       v.customize ["modifyvm", :id, "--vram", 12]
       v.customize ["modifyvm", :id, "--accelerate3d", "off"]
       unless File.exist?(disk1)
         v.customize ['createhd', '--filename', disk1, '--variant', 'Fixed', '--size', 2 * 1024]
-        v.customize ['createhd', '--filename', disk2, '--variant', 'Fixed', '--size', 4 * 1024]
+        v.customize ['createhd', '--filename', disk2, '--variant', 'Fixed', '--size', 5 * 1024]
         v.customize ['createhd', '--filename', disk3, '--variant', 'Fixed', '--size', 1 * 1024]
         v.customize ['storageattach', :id,  '--storagectl', 'SATA', '--port', 2, '--device', 0, '--type', 'hdd', '--medium', disk1]
         v.customize ['storageattach', :id,  '--storagectl', 'SATA', '--port', 3, '--device', 0, '--type', 'hdd', '--medium', disk2]
