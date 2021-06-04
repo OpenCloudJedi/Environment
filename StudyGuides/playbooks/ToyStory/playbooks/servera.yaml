@@ -4,6 +4,10 @@
   become: yes
   vars_files: vars/servera
   tasks:
+    - name: Set root password to daycare
+      user:
+        name: root
+        password: "{{ 'daycare' | password_hash('sha512') }}"
     - name: Installing Container Folder
       file:
         state: directory
