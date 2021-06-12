@@ -1,6 +1,6 @@
 # Environment
 
-This is an environment build using Ansible, Vagrant, and VirtualBox to create an environment suitable for study and practice for the RHEL 8 RHCSA exam. In order to make use of this envoronment, some software will need to be installed on your computer. The computer you use for this should have at least 8Gb of RAM and a CPU that has at least 2 cores. You may be able to get away with a little less, however for the optimum experience it is recommended. This can be setup on hosts with a variety of operating systems.
+This is an environment build using Ansible, Vagrant, and VirtualBox to create an environment suitable for study and practice for the RHEL 8 RHCSA exam. In order to make use of this environment, some software will need to be installed on your computer. The computer you use for this should have at least 8Gb of RAM and a CPU that has at least 2 cores. You may be able to get away with a little less, however for the optimum experience it is recommended. This can be setup on hosts with a variety of operating systems.
 # Environment Build Instructions
 ## macOS
 _Gatekeeper will block virtualbox from installing. All you have to do is go into Security & Privacy of System Preferences and click Allow under the General tab and rerun installation._
@@ -51,9 +51,9 @@ systemctl stop packagekit; dnf -y install https://dl.fedoraproject.org/pub/epel/
 
 ##### Once the above software is installed. Do the following if you're running the environment on Windows:
 1. Create a separate `~/bin` directory and `cd` to it using the same PowerShell/Terminal as Administrator/Root.  (The directory doesn't have to be ~/bin, it can be anything you want.)
-2. Use your browser of choice and navigate to https://github.com/OpenCloudJedi/Environment.git, press the green “Clone or download” button then the “Download ZIP” button. Or use Github Desktop (See below).
+2. Use your browser of choice and navigate to https://github.com/OpenCloudJedi/Environment, press the green “Clone or download” button then the “Download ZIP” button. Or use Github Desktop (See below).
 3. Once downloaded, unzip the file and move it to the directory you created earlier, `~/bin` in the above example.
-4. Use PowerShell/Terminal as Administrator/Root again and cd to the `~/bin/Environment` directory then run `vagrant up` to deploy the environment. (If the environment has a designated repo VM it will take the longest to deploy the first time only, this is because the repo system has all the packages available to the base release but will be quicker on subsequent deployments.)
+4. Use PowerShell/Terminal as Administrator/Root again and cd to the `~/bin/Environment-main` directory then run `vagrant up` to deploy the environment. (It will take the longest to deploy the first time only, this is because the Vagrant system downloads the base image only the first time.
 
 
 ## Debian/Ubuntu
@@ -61,7 +61,7 @@ _NOTE - If it's been awhile since you've run apt update, do that first. Reboot i
 
 ##### Install all at once by Copy/Pasting the below command into your terminal as root.
 ```
-sudo snap install ruby ; sudo apt install ruby-bundler git -y; wget -c https://releases.hashicorp.com/vagrant/2.2.6/vagrant_2.2.6_x86_64.deb ; sudo dpkg -i vagrant_2.2.6_x86_64.deb ; wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add - ; wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add - ; sudo add-apt-repository "deb http://download.virtualbox.org/virtualbox/debian bionic contrib"; sudo apt update; sudo apt install -y virtualbox-6.0 ; vagrant plugin install vagrant-guest_ansible
+sudo snap install ruby ; sudo apt install ruby-bundler git -y; wget -c https://releases.hashicorp.com/vagrant/2.2.6/vagrant_2.2.6_x86_64.deb ; sudo dpkg -i vagrant_2.2.6_x86_64.deb ; wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add - ; wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add - ; sudo add-apt-repository "deb http://download.virtualbox.org/virtualbox/debian bionic contrib"; sudo apt update; sudo apt install -y virtualbox ; vagrant plugin install vagrant-guest_ansible
 ```
 ##### Also, install the Virtualbox extension pack below
 - [Virtual Box Extension Pack](https://www.virtualbox.org/wiki/Downloads)
@@ -88,6 +88,7 @@ _NOTE this requires a free Github account_
 - `vagrant destroy -f` - Shuts down and destroys all of the vms
 - `vagrant destroy -f server1` - Shuts down and destroys only server1
 - `vagrant destroy -f server2` - Shuts down and destroys only server2
+- `vagrant up --provision` - Builds the servers that were destroyed and runs provisioning scripts again
 
 If you want you can create a snapshot of your 2 machines that get reset and then restore that snapshot to quickly start over. This is significantly faster than a full reset. 
 1. First bring up the environment fully and make sure the provisioning script ran (The ansible part after all 3 machines boot up)
