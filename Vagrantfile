@@ -20,7 +20,7 @@ Vagrant.configure("2") do |config|
   end
   # server1.
   config.vm.define "server1" do |server1|
-    server1.vm.box = "m1k3bu11/CentOS8.3-Workstation"
+    server1.vm.box = "codeup/CentOS"
     server1.vm.hostname = "server1.test"
     server1.vm.network :private_network, ip: "192.168.2.3"
     #server1.vm.provision "shell",
@@ -39,7 +39,7 @@ Vagrant.configure("2") do |config|
   end
   # Server2.
   config.vm.define "server2" do |server2|
-    server2.vm.box = "m1k3bu11/CentOS8.3-Workstation"
+    server2.vm.box = "codeup/CentOS"
     server2.vm.hostname = "server2.test"
     server2.vm.network :private_network, ip: "192.168.2.4"
     #server2.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__exclude: ".git/"
@@ -74,7 +74,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "workstation" do |workstation|
     workstation.vm.hostname = "workstation.test"
     workstation.vm.network :private_network, ip: "192.168.2.5"
-    config.vm.box = "m1k3bu11/CentOS8.3-Workstation"
+    config.vm.box = "codeup/CentOS"
     config.ssh.insert_key = false
     workstation.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__exclude: [".git/", "disk-0-1.vdi", "disk-0-2.vdi", "disk-0-3.vdi"]
     workstation.vm.provision "shell",
